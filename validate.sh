@@ -18,10 +18,8 @@ Options:
 ####### Root variables #######
 ##############################
 SCRIPT_DIR=$(dirname -- "$(readlink -f -- "$0")")
-CURRENT_DATE=$(date +'%Y-%m-%d')
 
 IS_WORKSPACE=false
-IS_DRY_RUN=false
 IS_QUIET=false
 IS_VERBOSE=false
 PRESET="conventional-commits"
@@ -75,6 +73,7 @@ function parseOptions {
   done
 }
 
+# shellcheck disable=SC2317
 function isValidCommitType {
   local key="$1"
   shift
