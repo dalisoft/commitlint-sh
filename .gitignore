@@ -1,0 +1,27 @@
+.DS_Store
+
+# Dependencies
+node_modules
+
+# Lockfiles
+yarn.lock
+package-lock.json
+bun.lockb
+
+# Generated files
+CHANGELOG.md
+
+# release-me
+.release-me
+
+# Testing library
+bash_unit
+
+# Testing coverage
+coverage
+
+# Secrets
+.env*
+.secrets*
+!.env.example
+!.secrets.example
