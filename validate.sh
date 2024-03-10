@@ -23,7 +23,6 @@ IS_WORKSPACE=false
 IS_QUIET=false
 IS_VERBOSE=false
 PRESET="conventional-commits"
-COMMIT_MESSAGE=
 
 # set `verbose` on `CI`
 if [ "${CI:-}" == true ]; then
@@ -63,7 +62,8 @@ function parseOptions {
       exit 1
       ;;
     ?*)
-      COMMIT_MESSAGE="$KEY"
+      echo -n "$CLI_PREFIX Unknown argument: $KEY"
+      exit 1
       ;;
     "")
       break
@@ -108,9 +108,8 @@ log_verbose() {
 parseOptions "$@"
 
 if [ "$PRESET" != "" ]; then
-  SOURCE_PRESET_FILE="$SCRIPT_DIR/presets/${PRESET}.sh"
   # shellcheck disable=SC1090
-  source "$SOURCE_PRESET_FILE"
+  source "$SCRIPT_DIR/presets/${PRESET}.sh"
 fi
 
 ##############################
@@ -118,12 +117,7 @@ fi
 ##############################
 
 PKG_NAME=""
-
-function parsePackages {
-  if ! $IS_WORKSPACE; then
-    return 0
-  fi
-
+if $IS_WORKSPACE; then
   if [ -f "./package.json" ]; then
     PKG_NAME=$(awk -F': ' '/"name":/ {gsub(/[",]/, "", $2); print $2}' "./package.json")
   elif [ -f "./Cargo.toml" ]; then
@@ -140,21 +134,20 @@ EOF
 
   log_verbose "Workspace mode is enabled"
   log_verbose "Workspace project name: $PKG_NAME"
-}
-
-function validateMessage {
-  if [[ $(validate_commit "$COMMIT_MESSAGE") == 1 ]]; then
-    log "Invalid commit message"
-    log_verbose "Validation failed because of commit message \"$COMMIT_MESSAGE\" is not valid"
-    exit 1
-  else
-    log_verbose "Validation succeed as commit message \"$COMMIT_MESSAGE\" is valid"
-    exit 0
-  fi
-}
+fi
 
 ##############################
-######## Initializate ########
+###### Initializatation ######
 ##############################
-parsePackages
-validateMessage
+
+message=$(cat -)
+echo "$(validate_commit "$message")"
+
+if [[ $(validate_commit "$message") == 1 ]]; then
+  log "Invalid commit message"
+  log_verbose "Validation failed because of commit message \"$message\" is not valid"
+  exit 1
+else
+  log_verbose "Validation succeed as commit message \"$message\" is valid"
+  exit 0
+fi
