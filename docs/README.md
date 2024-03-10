@@ -9,13 +9,13 @@ Blazing fast minimal commitlint validation script written in **Bash** with prese
 ## Features
 
 - Available on all **Unix** environments
+- Zero config
 - Zero third-party dependencies
 - No pre-install, just use
 - Blazing fast, no wait
 - Workspace support out-of-box
 - Programming language agnostic
-- Fast (<5 sec with all plugins execution)
-- Plugins available/compatible
+- Fast (<50ms)
 - Presets available/compatible
 
 ## Documentation
@@ -25,6 +25,7 @@ Go-to [repository page](https://github.com/dalisoft/commitlint-sh) or see [**Get
 ## Similar projects
 
 - [commitlint](https://commitlint.js.org)
+- [commitlint-rs](https://github.com/KeisukeYamashita/commitlint-rs)
 
 ## Credits to
 

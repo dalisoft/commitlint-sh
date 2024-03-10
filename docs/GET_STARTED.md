@@ -27,50 +27,26 @@ Before you start using commitlint-sh, make sure you have the following installed
 - `bash` (version 5.x or later) with `curl`, `sed` dependencies
 - `npm` (version 9.x or later), required for `npm` package
 
-### Features
+## Features
 
 - Available on all **Unix** environments
+- Zero config
 - Zero third-party dependencies
 - No pre-install, just use
 - Blazing fast, no wait
 - Workspace support out-of-box
 - Programming language agnostic
-- Fast (<5 sec with all plugins execution)
-- Plugins available/compatible
+- Fast (<50ms)
 - Presets available/compatible
 
 ### Limitations
 
-- Currently supports only **Node.js**, **Rust** and **Python** projects (library only)
-- Rebased commits tracking are lost so duplicate releases possible
 - Available only in **Unix** environments (no Windows support yet)
-
-### Versioning priority
-
-If one of files described below will be found, script parse first matched file and priority will ran as these
-
-1. **Node.js** (`package.json`)
-2. **Rust** (`Cargo.toml`)
-3. **Python** (`setup.py`)
-
-## Comparison
-
-| Features      | commitlint-sh | semantic-release | go-semantic-release |
-| ------------- | ------------- | ---------------- | ------------------- |
-| Performance   | Fast          | Slow             | Fast                |
-| Startup delay | -             | Slow             | Fast                |
-| Platform      | Unix-only     | ALL              | ALL                 |
-| Dependencies  | -             | +                | ?                   |
-| Configuration | -             | +                | +                   |
-| Presets       | +             | +                | -                   |
-| Plugins       | +             | +                | +                   |
-| Workspaces    | Built-in      | ?                | -                   |
-| `0.x` support | Built-in      | -                | ?                   |
-| `semver`      | +             | +                | +                   |
 
 ## Similar projects
 
 - [commitlint](https://commitlint.js.org)
+- [commitlint-rs](https://github.com/KeisukeYamashita/commitlint-rs)
 
 ## Credits to
 

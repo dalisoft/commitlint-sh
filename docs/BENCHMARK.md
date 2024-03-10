@@ -21,18 +21,20 @@ List of contents:
 
 ### Average library project
 
-> Spoiler: ~8-times faster
+> Spoiler: ~8-times faster than Node.js counterpart
 
-| Name          | `time` | Command                       |
-| ------------- | ------ | ----------------------------- |
-| commitlint    | `1s`   | `echo "foo" \| commitlint`    |
-| commitlint-sh | `0.1s` | `echo "foo" \| ./validate.sh` |
+| Name          | `time`  | Command                       |
+| ------------- | ------- | ----------------------------- |
+| commitlint    | `150ms` | `echo "foo" \| commitlint`    |
+| commitlint-sh | `20ms`  | `echo "foo" \| ./validate.sh` |
+| commitlint-rs | `5ms`   | `echo "foo" \| commitlint`    |
 
 ### Workspace project
 
-> Spoiler: ~75-times faster
+> Spoiler: ~8-times faster than Node.js counterpart
 
-| Name          | `time` | Command                                              |
-| ------------- | ------ | ---------------------------------------------------- |
-| commitlint    | `3s`   | `echo "foo(workspace)" \| commitlint`                |
-| commitlint-sh | `0.2s` | `echo "foo(workspace)" \| ./validate.sh --workspace` |
+| Name          | `time`  | Command                                              |
+| ------------- | ------- | ---------------------------------------------------- |
+| commitlint    | `250ms` | `echo "foo(workspace)" \| commitlint`                |
+| commitlint-sh | `30ms`  | `echo "foo(workspace)" \| ./validate.sh --workspace` |
+| commitlint-rs | `7ms`   | `echo "foo(workspace)" \| commitlint`                |
