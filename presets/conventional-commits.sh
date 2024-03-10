@@ -4,7 +4,7 @@ set -eu
 # RegExp as variable
 regexp_commit_primary="^([a-z]+)(\(([^\)]+)\))?:\ (.+)$"
 regexp_commit_major="^([a-z]+)(\(([^\)]+)\))?!?:\ (.+)$"
-string_commit_major="^BREAKING CHANGE"
+string_commit_major="BREAKING CHANGE"
 
 # Release types
 RELEASE_SKIP_TYPES=("build" "chore" "docs" "test" "style" "ci" "skip ci")
@@ -16,25 +16,14 @@ validate_commit() {
   local subject="$1"
 
   local type
-  local scope
-  local description
 
   # Extracting the type, scope, and description using Bash regex
   if [[ "$subject" =~ $regexp_commit_primary ]]; then
     type="${BASH_REMATCH[1]}"
-    scope="${BASH_REMATCH[3]}"
-    description="${BASH_REMATCH[4]}"
-
   elif [[ "$subject" =~ $regexp_commit_major ]]; then
-    # type="${BASH_REMATCH[1]}"
-    scope="${BASH_REMATCH[3]}"
-    description="${BASH_REMATCH[4]}"
-
     type="BREAKING CHANGE"
   elif [[ "$subject" =~ $string_commit_major ]]; then
     type="BREAKING CHANGE"
-
-    description="$subject"
   else
     echo 1
     return 1
