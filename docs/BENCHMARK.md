@@ -21,20 +21,20 @@ List of contents:
 
 ### Average library project
 
-> Spoiler: ~8-times faster than Node.js counterpart
+> Spoiler: ~30-times faster than Node.js counterpart
 
-| Name          | `time`  | Command                       |
-| ------------- | ------- | ----------------------------- |
-| commitlint    | `150ms` | `echo "foo" \| commitlint`    |
-| commitlint-sh | `20ms`  | `echo "foo" \| ./validate.sh` |
-| commitlint-rs | `5ms`   | `echo "foo" \| commitlint`    |
+| Command                                                  | Mean \[ms\] | Min \[ms\] | Max \[ms\] |     Relative |
+| :------------------------------------------------------- | ----------: | ---------: | ---------: | -----------: |
+| `echo "fix: it works" \| ../validate.sh`                 |   6.8 ± 4.3 |        3.2 |       15.2 |  2.63 ± 1.69 |
+| `echo "fix: it works" \| ./commitlint-rs`                |   2.6 ± 0.3 |        2.1 |        3.1 |         1.00 |
+| `echo "fix: it works" \| ./commitlint-go lint`           |   2.6 ± 0.2 |        2.2 |        3.0 |  1.00 ± 0.16 |
+| `echo "fix: it works" \| ./node_modules/.bin/commitlint` | 159.4 ± 3.9 |      157.5 |      169.9 | 61.55 ± 7.73 |
 
 ### Workspace project
 
-> Spoiler: ~8-times faster than Node.js counterpart
+> Spoiler: ~30-times faster than Node.js counterpart
 
-| Name          | `time`  | Command                                              |
-| ------------- | ------- | ---------------------------------------------------- |
-| commitlint    | `250ms` | `echo "foo(workspace)" \| commitlint`                |
-| commitlint-sh | `30ms`  | `echo "foo(workspace)" \| ./validate.sh --workspace` |
-| commitlint-rs | `7ms`   | `echo "foo(workspace)" \| commitlint`                |
+| Command                                                          | Mean \[ms\] | Min \[ms\] | Max \[ms\] |     Relative |
+| :--------------------------------------------------------------- | ----------: | ---------: | ---------: | -----------: |
+| `echo "echo "foo(workspace)"" \| ../validate.sh`                 |   6.8 ± 4.3 |        3.2 |       15.2 |  2.63 ± 1.69 |
+| `echo "echo "foo(workspace)"" \| ./node_modules/.bin/commitlint` | 159.4 ± 3.9 |      157.5 |      169.9 | 61.55 ± 7.73 |
