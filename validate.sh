@@ -1,5 +1,13 @@
-#!/usr/bin/env bash
-set -eu
+#!/bin/sh
+
+if [ -n "${TRACE_TIME-}" ]; then
+  PS4='+ $(gdate +%s%3N)\011 '
+  exec 3>&2 2>/tmp/bashstart-csh.log
+
+  set -eux
+else
+  set -eu
+fi
 
 readonly CLI_PREFIX="[commitlint-sh]"
 readonly DESCRIPTION="Blazing fast minimal commitlint validation script written in Bash with presets support"
@@ -17,15 +25,13 @@ Options:
 ##############################
 ####### Root variables #######
 ##############################
-SCRIPT_DIR=$(dirname -- "$(readlink -f -- "$0")")
-
 IS_WORKSPACE=false
 IS_QUIET=false
 IS_VERBOSE=false
 PRESET="conventional-commits"
 
 # set `verbose` on `CI`
-if [ "${CI:-}" == true ]; then
+if [ "${CI:-}" = true ]; then
   IS_VERBOSE=true
 fi
 
@@ -33,57 +39,54 @@ fi
 ###### Helpers & Utils #######
 ##############################
 
-function parseOptions {
-  while :; do
-    local KEY="${1-}"
-    case "$KEY" in
-    -v | --version)
-      echo -n "$CLI_PREFIX last version available at GitHub"
-      exit 0
-      ;;
-    -h | -\? | --help)
-      echo -n "$USAGE"
-      exit 0
-      ;;
-    -w | --workspace)
-      IS_WORKSPACE=true
-      PRESET="workspace"
-      ;;
-    -q | --quiet)
-      IS_QUIET=true
-      IS_VERBOSE=false
-      ;;
-    --verbose)
-      IS_VERBOSE=true
-      IS_QUIET=false
-      ;;
-    -?*)
-      echo -n "$CLI_PREFIX Unknown option: $KEY"
-      exit 1
-      ;;
-    ?*)
-      echo -n "$CLI_PREFIX Unknown argument: $KEY"
-      exit 1
-      ;;
-    "")
-      break
-      ;;
-    esac
-    shift
-  done
-}
+while :; do
+  KEY="${1-}"
+  case "$KEY" in
+  -v | --version)
+    echo "$CLI_PREFIX last version available at GitHub"
+    exit 0
+    ;;
+  -h | -\? | --help)
+    echo "$USAGE"
+    exit 0
+    ;;
+  -w | --workspace)
+    IS_WORKSPACE=true
+    PRESET="workspace"
+    ;;
+  -q | --quiet)
+    IS_QUIET=true
+    IS_VERBOSE=false
+    ;;
+  --verbose)
+    IS_VERBOSE=true
+    IS_QUIET=false
+    ;;
+  -?*)
+    echo "$CLI_PREFIX Unknown option: $KEY"
+    exit 1
+    ;;
+  ?*)
+    echo "$CLI_PREFIX Unknown argument: $KEY"
+    exit 1
+    ;;
+  "")
+    break
+    ;;
+  esac
+  shift
+done
+
+read -r message
 
 # shellcheck disable=SC2317
-function isValidCommitType {
-  local key="$1"
-  shift
-  local arr=("$@")
+isValidCommitType() {
+  case $2 in
+  *$1*)
+    return 0
+    ;;
+  esac
 
-  for element in "${arr[@]}"; do
-    if [[ "$key" == "${element}"* ]]; then
-      return 0
-    fi
-  done
   return 1
 }
 
@@ -92,12 +95,12 @@ function isValidCommitType {
 ##############################
 log() {
   if ! $IS_QUIET; then
-    echo -e "$CLI_PREFIX $1"
+    echo "$CLI_PREFIX $1"
   fi
 }
 log_verbose() {
   if $IS_VERBOSE; then
-    echo -e "$CLI_PREFIX $1"
+    echo "$CLI_PREFIX $1"
   fi
 }
 
@@ -105,11 +108,9 @@ log_verbose() {
 ##### Early exit errors ######
 ##############################
 
-parseOptions "$@"
-
 if [ "$PRESET" != "" ]; then
-  # shellcheck disable=SC1090
-  source "$SCRIPT_DIR/presets/${PRESET}.sh"
+  # shellcheck source-path=presets
+  . "../presets/${PRESET}.sh"
 fi
 
 ##############################
@@ -140,14 +141,19 @@ fi
 ###### Initializatation ######
 ##############################
 
-message=$(cat -)
-echo "$(validate_commit "$message")"
+# echo "$(validate_commit "$message")"
 
-if [[ $(validate_commit "$message") == 1 ]]; then
+if [ $(validate_commit "$message") = 1 ]; then
   log "Invalid commit message"
   log_verbose "Validation failed because of commit message \"$message\" is not valid"
-  exit 1
+  # exit 1
 else
   log_verbose "Validation succeed as commit message \"$message\" is valid"
-  exit 0
+  # exit 0
+fi
+
+if [ -n "${TRACE_TIME-}" ]; then
+  set +x
+  exec 2>&3 3>&-
+  cat /tmp/bashstart-csh.log | node ../scripts/find-longest-line.mjs
 fi
