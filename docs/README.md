@@ -26,6 +26,7 @@ Go-to [repository page](https://github.com/dalisoft/commitlint-sh) or see [**Get
 
 - [commitlint](https://commitlint.js.org)
 - [commitlint-rs](https://github.com/KeisukeYamashita/commitlint-rs)
+- [commitlint-go](https://github.com/conventionalcommit/commitlint)
 
 ## Credits to
 

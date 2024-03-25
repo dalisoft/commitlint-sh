@@ -47,6 +47,7 @@ Before you start using commitlint-sh, make sure you have the following installed
 
 - [commitlint](https://commitlint.js.org)
 - [commitlint-rs](https://github.com/KeisukeYamashita/commitlint-rs)
+- [commitlint-go](https://github.com/conventionalcommit/commitlint)
 
 ## Credits to
 
