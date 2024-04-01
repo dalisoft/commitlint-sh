@@ -1,5 +1,8 @@
-#!/usr/bin/env bash
+#!/bin/sh
 set -eu
+
+# Exports for binaries access
+export PATH="./node_modules/.bin:$PATH"
 
 prepare() {
   # commitlint-rs
@@ -19,7 +22,7 @@ prepare() {
 }
 
 run() {
-  hyperfine --warmup 3 --runs 10 'echo "fix: it works" | ../validate.sh' 'echo "fix: it works" | ./commitlint-rs' 'echo "fix: it works" | ./commitlint-go lint' 'echo "fix: it works" | ./node_modules/.bin/commitlint' --export-markdown "result.md"
+  hyperfine --warmup 3 --runs 10 'echo "fix: it works" | ../validate.sh' 'echo "fix: it works" | ./commitlint-rs' 'echo "fix: it works" | ./commitlint-go lint' 'echo "fix: it works" | commitlint' --export-markdown "result.md"
 }
 
 prepare
