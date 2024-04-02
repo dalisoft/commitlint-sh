@@ -21,9 +21,9 @@ prepare() {
   npm ci
 }
 
-run() {
-  hyperfine --warmup 3 --runs 10 'echo "fix: it works" | ../validate.sh' 'echo "fix: it works" | ./commitlint-rs' 'echo "fix: it works" | ./commitlint-go lint' 'echo "fix: it works" | commitlint' --export-markdown "result.md"
-}
+# shellcheck disable=SC3045
+export -f prepare
 
-prepare
-run
+hyperfine --warmup 3 --runs 10 'echo "fix: it works" | ../validate.sh' 'echo "fix: it works" | ./commitlint-rs' 'echo "fix: it works" | ./commitlint-go lint' 'echo "fix: it works" | commitlint' --export-markdown "result.md" --setup prepare
+
+# hyperfine --warmup 3 --runs 10 'echo "fix(core): it works" | ../validate.sh --workspace' 'echo "fix(core): it works" | commitlint' --export-markdown "workspace.md" --setup prepare

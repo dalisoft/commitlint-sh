@@ -1,13 +1,5 @@
 #!/bin/sh
-
-if [ -n "${TRACE_TIME-}" ]; then
-  PS4='+ $(gdate +%s%3N)\011 '
-  exec 3>&2 2>/tmp/bashstart-csh.log
-
-  set -eux
-else
-  set -eu
-fi
+set -eu
 
 readonly CLI_PREFIX="[commitlint-sh]"
 readonly DESCRIPTION="Blazing fast minimal commitlint validation script written in Bash with presets support"
@@ -143,17 +135,11 @@ fi
 
 # echo "$(validate_commit "$message")"
 
-if [ $(validate_commit "$message") = 1 ]; then
+if [ "$(validate_commit "$message")" = 1 ]; then
   log "Invalid commit message"
   log_verbose "Validation failed because of commit message \"$message\" is not valid"
-  # exit 1
+  exit 1
 else
   log_verbose "Validation succeed as commit message \"$message\" is valid"
-  # exit 0
-fi
-
-if [ -n "${TRACE_TIME-}" ]; then
-  set +x
-  exec 2>&3 3>&-
-  cat /tmp/bashstart-csh.log | node ../scripts/find-longest-line.mjs
+  exit 0
 fi
