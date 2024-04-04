@@ -23,9 +23,7 @@ Welcome to commitlint-sh! This tool is designed to streamline your software rele
 
 Before you start using commitlint-sh, make sure you have the following installed on your system:
 
-- `git` (version 2.30 or later)
-- `bash` (version 5.x or later) with `curl`, `sed` dependencies
-- `npm` (version 9.x or later), required for `npm` package
+- `posix sh`, `sed` and `curl` with required dependencies
 
 ## Features
 
