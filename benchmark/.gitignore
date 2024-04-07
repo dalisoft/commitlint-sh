@@ -13,3 +13,5 @@ yarn.lock
 
 # Result file
 result.md
+
+!package-lock.json
