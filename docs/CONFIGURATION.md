@@ -41,7 +41,6 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0 # <-- This line is REQUIRED
-          token: ${{ secrets.GH_TOKEN }} # <-- This line is REQUIRED too
       - name: Validate
         shell: bash
         run: |
