@@ -1,0 +1,17 @@
+# dependencies
+node_modules
+
+# Binaries
+commitlint-*
+
+# Lockfile
+bun.lockb
+yarn.lock
+
+# Logfile
+*.log
+
+# Result file
+result.md
+
+!package-lock.json

@@ -18,3 +18,7 @@ test_core_cli_invalid_option() {
   assert_equals "[commitlint-sh] Unknown option: --invalid" "$(bash "$ROOT_DIR/validate.sh" --invalid)"
   assert_status_code 1 "$ROOT_DIR/validate.sh --invalid"
 }
+test_core_cli_invalid_argument() {
+  assert_equals "[commitlint-sh] Unknown argument: invalid" "$(bash "$ROOT_DIR/validate.sh" invalid)"
+  assert_status_code 1 "$ROOT_DIR/validate.sh invalid"
+}
